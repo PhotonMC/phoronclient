@@ -3,30 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photon Client | Speed. Precision. Power.</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Phoron Client | High-Performance Minecraft</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #00d4ff; /* Photon Blue */
-            --bg-dark: #0a0b10;
-            --card-bg: #161b22;
-            --text-main: #ffffff;
-            --text-dim: #a3abb2;
-            --accent-glow: rgba(0, 212, 255, 0.3);
+            --primary: #00f2ff; /* Photon Cyan */
+            --secondary: #7000ff; /* Deep Purple accent */
+            --bg-body: #050508;
+            --bg-card: #0d1117;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --glow: rgba(0, 242, 255, 0.4);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-body);
             color: var(--text-main);
-            line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- BACKGROUND EFFECT --- */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, #0d0d1a 0%, transparent 50%);
+            z-index: -1;
         }
 
         /* --- NAVIGATION --- */
@@ -34,46 +48,50 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 10%;
-            background: rgba(10, 11, 16, 0.8);
-            backdrop-filter: blur(10px);
+            padding: 1.5rem 10%;
+            background: rgba(5, 5, 8, 0.8);
+            backdrop-filter: blur(12px);
             position: fixed;
             width: 100%;
+            top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .logo-area {
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 12px;
+            text-decoration: none;
         }
 
-        .logo-area img {
-            width: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px var(--accent-glow);
+        .nav-brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px var(--glow);
         }
 
-        .logo-text {
-            font-size: 1.5rem;
+        .nav-brand span {
             font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, #fff, var(--primary-color));
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .nav-links a {
-            color: var(--text-dim);
+            color: var(--text-muted);
             text-decoration: none;
-            margin-left: 30px;
+            margin-left: 2rem;
+            font-size: 0.95rem;
+            transition: 0.2s;
             font-weight: 500;
-            transition: 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--primary-color);
+            color: var(--primary);
         }
 
         /* --- HERO SECTION --- */
@@ -84,151 +102,229 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 20px;
-            background: radial-gradient(circle at center, #1a2332 0%, var(--bg-dark) 70%);
+            padding: 0 1rem;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px var(--accent-glow);
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+            text-shadow: 0 0 40px var(--glow);
         }
 
         .hero p {
-            color: var(--text-dim);
-            max-width: 600px;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 2.5rem;
         }
 
-        .cta-btn {
-            background: var(--primary-color);
-            color: #000;
-            padding: 15px 40px;
-            border-radius: 50px;
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1rem;
             transition: 0.3s;
-            box-shadow: 0 0 20px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px var(--primary-color);
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 4px 15px var(--glow);
         }
 
-        /* --- FEATURES --- */
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--glow);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        /* --- FEATURES SECTION --- */
         .features {
             padding: 100px 10%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .feature-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
+            transition: 0.3s ease;
         }
 
         .feature-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .feature-card i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
         }
 
         .feature-card h3 {
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
         }
 
         .feature-card p {
-            color: var(--text-dim);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- INFO SECTION --- */
+        .version-bar {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.05), transparent);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .version-bar span {
+            font-family: monospace;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin: 0 10px;
         }
 
         /* --- FOOTER --- */
         footer {
-            padding: 50px 10%;
-            background: #050608;
+            padding: 4rem 10%;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .social-links {
-            margin-bottom: 20px;
+        .footer-logo {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
         }
 
-        .social-links a {
-            color: var(--text-dim);
+        .footer-links {
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
             font-size: 1.5rem;
-            margin: 0 15px;
-            transition: 0.3s;
+            margin: 0 1rem;
+            transition: 0.2s;
         }
 
-        .social-links a:hover {
-            color: var(--primary-color);
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: #444;
+            font-size: 0.85rem;
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
             .nav-links { display: none; }
+            .hero h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
+    <div class="bg-glow"></div>
+
     <nav>
-        <div class="logo-area">
-            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="Photon Logo">
-            <span class="logo-text">PHOTON</span>
-        </div>
+        <a href="#" class="nav-brand">
+            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="Phoron Logo">
+            <span>PHORON</span>
+        </a>
         <div class="nav-links">
             <a href="#features">Features</a>
-            <a href="#">Store</a>
+            <a href="https://github.com/PhotonMC/phoronclient">GitHub</a>
             <a href="#">Discord</a>
-            <a href="#">Staff</a>
+            <a href="#">Documentation</a>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Experience the Light.</h1>
-        <p>Photon is a cutting-edge Minecraft client designed for competitive players. Boost your FPS, customize your UI, and dominate the game.</p>
-        <a href="#" class="cta-btn"><i class="fas fa-download"></i> Download Now</a>
+        <h1><span>Phoron</span> Client</h1>
+        <p>A next-generation Minecraft optimization framework by PhotonMC. Designed for maximum stability, boosted frame rates, and a seamless gameplay experience.</p>
+        <div class="hero-btns">
+            <a href="https://github.com/PhotonMC/phoronclient/releases" class="btn btn-primary">
+                <i class="fas fa-download"></i> Get Started
+            </a>
+            <a href="https://github.com/PhotonMC/phoronclient" class="btn btn-outline">
+                <i class="fab fa-github"></i> View Source
+            </a>
+        </div>
     </section>
+
+    <div class="version-bar">
+        Supporting versions from <span>1.7.10</span> through <span>1.21+</span>
+    </div>
 
     <section class="features" id="features">
         <div class="feature-card">
-            <i class="fas fa-bolt"></i>
-            <h3>Extreme FPS Boost</h3>
-            <p>Our custom rendering engine significantly reduces CPU usage and maximizes frame rates on all hardware.</p>
+            <i class="fas fa-microchip"></i>
+            <h3>Superior Performance</h3>
+            <p>Built on top of a highly optimized framework to reduce CPU overhead and eliminate stuttering in high-intensity situations.</p>
         </div>
         <div class="feature-card">
-            <i class="fas fa-sliders-h"></i>
-            <h3>Fully Customizable</h3>
-            <p>Tweak every element of your HUD, from keystrokes and armor status to custom crosshairs.</p>
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <h3>Modern UI</h3>
+            <p>A clean, non-intrusive interface that focuses on what matters: your game. Fully customizable to fit your specific playstyle.</p>
         </div>
         <div class="feature-card">
-            <i class="fas fa-shield-alt"></i>
-            <h3>Built-in Anticheat</h3>
-            <p>Play with confidence. Our client-side integrity checks ensure a fair environment for everyone.</p>
+            <i class="fas fa-code-branch"></i>
+            <h3>Open Source</h3>
+            <p>Phoron is transparent. View, contribute, or fork our code on GitHub. We believe in community-driven development.</p>
         </div>
     </section>
 
     <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-discord"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
+        <div class="footer-logo">
+            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="PhotonMC" style="width: 40px; border-radius: 50%;">
         </div>
-        <p>&copy; 2024 Photon Client. Not an official Minecraft product.</p>
+        <div class="footer-links">
+            <a href="https://github.com/PhotonMC"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-x-twitter"></i></a>
+        </div>
+        <p class="copyright">
+            &copy; 2024 PhotonMC. All rights reserved.<br>
+            Not affiliated with Mojang AB or Microsoft.
+        </p>
     </footer>
 
 </body>
