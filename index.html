@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoron Client | 1.8.9 Performance</title>
+    <title>Phoron Client | 1.8.9 Open Source Performance</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
 
         :root {
-            /* Night Mode Colors (Default) */
-            --bg: #05060a;
-            --card-bg: rgba(17, 24, 39, 0.7);
+            /* Night Mode (Default) - Fancy & Deep */
+            --bg: #030408;
+            --nav-bg: rgba(3, 4, 8, 0.8);
+            --card-bg: rgba(13, 17, 23, 0.7);
             --text-main: #ffffff;
-            --text-dim: #9ca3af;
-            --accent: #60a5fa;
-            --accent-glow: rgba(96, 165, 250, 0.3);
-            --border: rgba(255, 255, 255, 0.08);
-            --nav-bg: rgba(5, 6, 10, 0.8);
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.25);
+            --border: rgba(255, 255, 255, 0.06);
+            --btn-text: #030408;
         }
 
         [data-theme="light"] {
-            /* Light Mode Colors */
-            --bg: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.8);
+            /* Fancy Light Mode - Clean & Crisp */
+            --bg: #f1f5f9;
+            --nav-bg: rgba(241, 245, 249, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.9);
             --text-main: #0f172a;
-            --text-dim: #475569;
-            --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.1);
-            --border: rgba(0, 0, 0, 0.08);
-            --nav-bg: rgba(248, 250, 252, 0.8);
+            --text-dim: #64748b;
+            --accent: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.15);
+            --border: rgba(15, 23, 42, 0.08);
+            --btn-text: #ffffff;
         }
 
         * {
@@ -37,7 +39,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
         }
 
         body {
@@ -47,17 +49,17 @@
             line-height: 1.6;
         }
 
-        /* --- FANCY BACKGROUND --- */
-        .bg-blob {
+        /* --- DECORATIVE BACKGROUND --- */
+        .glow-mesh {
             position: fixed;
-            width: 500px;
-            height: 500px;
-            background: var(--accent-glow);
-            filter: blur(120px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, var(--accent-glow), transparent 40%),
+                        radial-gradient(circle at 20% 80%, var(--accent-glow), transparent 40%);
             z-index: -1;
-            border-radius: 50%;
-            top: -100px;
-            right: -100px;
+            pointer-events: none;
         }
 
         /* --- NAVIGATION --- */
@@ -68,9 +70,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 10%;
+            padding: 1.2rem 10%;
             background: var(--nav-bg);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             border-bottom: 1px solid var(--border);
         }
@@ -82,275 +84,235 @@
             font-weight: 800;
             text-decoration: none;
             color: var(--text-main);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
         }
 
         .nav-logo img {
-            width: 35px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px var(--accent-glow);
+            width: 32px;
+            border-radius: 6px;
         }
 
-        .nav-right {
+        .nav-links {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
-        .theme-toggle {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px;
-            border-radius: 50%;
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .theme-switch {
             cursor: pointer;
             width: 40px;
             height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--accent);
+            border: 1px solid var(--border);
+            color: var(--text-main);
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            padding: 180px 10% 100px;
+            padding: 200px 10% 120px;
             text-align: center;
         }
 
-        .version-tag {
+        .os-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: var(--accent-glow);
             color: var(--accent);
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 100px;
             font-weight: 700;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 2rem;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--accent);
         }
 
         .hero h1 {
-            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            font-size: clamp(3.5rem, 9vw, 6rem);
             font-weight: 800;
-            letter-spacing: -0.05em;
-            line-height: 0.9;
+            line-height: 0.95;
+            letter-spacing: -0.06em;
             margin-bottom: 1.5rem;
         }
 
         .hero h1 span {
-            background: linear-gradient(to bottom right, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        [data-theme="light"] .hero h1 span {
-            background: linear-gradient(to bottom right, #000, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent);
+            filter: drop-shadow(0 0 20px var(--accent-glow));
         }
 
         .hero p {
+            font-size: 1.25rem;
             color: var(--text-dim);
-            font-size: 1.2rem;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto 3rem;
         }
 
-        .btn-group {
+        /* --- BUTTONS --- */
+        .cta-group {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 16px 36px;
+            padding: 16px 32px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: 0.3s;
         }
 
         .btn-download {
             background: var(--text-main);
-            color: var(--bg);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            color: var(--btn-text);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .btn-download:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px var(--accent-glow);
-        }
+        .btn-download:hover { transform: translateY(-3px); opacity: 0.9; }
 
-        .btn-discord {
-            background: var(--card-bg);
-            color: var(--text-main);
+        .btn-outline {
+            background: transparent;
             border: 1px solid var(--border);
+            color: var(--text-main);
         }
 
-        .btn-discord:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+        .btn-outline:hover { background: var(--border); border-color: var(--accent); }
 
         /* --- FEATURES --- */
         .features {
-            padding: 100px 10%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            padding: 50px 10% 100px;
         }
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
             padding: 3rem;
             border-radius: 24px;
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        .card:hover {
-            border-color: var(--accent);
-        }
-
-        .card i {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .card p {
-            color: var(--text-dim);
-        }
+        .card i { font-size: 2rem; color: var(--accent); margin-bottom: 1.5rem; }
+        .card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .card p { color: var(--text-dim); font-size: 1rem; }
 
         /* --- FOOTER --- */
         footer {
-            padding: 5rem 10%;
+            padding: 60px 10%;
             border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
             text-align: center;
         }
 
-        .footer-logo {
-            margin-bottom: 2rem;
-            opacity: 0.5;
-            filter: grayscale(1);
-        }
-
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-socials a {
-            color: var(--text-dim);
-            font-size: 1.5rem;
-            transition: 0.2s;
-        }
-
-        .footer-socials a:hover {
-            color: var(--accent);
-        }
-
-        .copyright {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
+        .footer-logo img { width: 40px; opacity: 0.7; }
+        .socials { display: flex; gap: 2rem; font-size: 1.5rem; }
+        .socials a { color: var(--text-dim); }
+        .socials a:hover { color: var(--accent); }
 
         @media (max-width: 768px) {
-            .btn-group { flex-direction: column; align-items: center; }
-            .hero h1 { font-size: 3rem; }
-            .nav-right { display: none; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blob"></div>
+    <div class="glow-mesh"></div>
 
     <nav>
         <a href="#" class="nav-logo">
-            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="Phoron">
+            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="Phoron Logo">
             PHORON
         </a>
-        <div class="nav-right">
-            <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
+        <div class="nav-links">
+            <a href="https://github.com/PhotonMC/phoroncode">Source</a>
+            <a href="https://discord.gg/QFwuEbESYe">Discord</a>
+            <div class="theme-switch" id="theme-toggle">
                 <i class="fas fa-moon"></i>
-            </button>
-            <a href="https://discord.gg/QFwuEbESYe" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">Discord</a>
-            <a href="https://github.com/PhotonMC" style="color: var(--text-dim); text-decoration: none; font-weight: 600;">GitHub</a>
+            </div>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="version-tag">STABLE 1.8.9</div>
-        <h1>Next-Gen<br><span>Performance.</span></h1>
-        <p>A sophisticated Minecraft experience by PhotonMC. Optimized for stability, speed, and elegance on the 1.8.9 engine.</p>
+        <div class="os-badge">
+            <i class="fab fa-github"></i> 100% OPEN SOURCE
+        </div>
+        <h1>Powering<br><span>Performance.</span></h1>
+        <p>An advanced Minecraft optimization client for 1.8.9. Experience ultra-stable frame rates and a modern codebase maintained by PhotonMC.</p>
         
-        <div class="btn-group">
-            <a href="https://discord.gg/QFwuEbESYe" class="btn btn-download">
+        <div class="cta-group">
+            <a href="https://github.com/PhotonMC/phoronclient/releases" class="btn btn-download">
                 <i class="fas fa-download"></i> Download
             </a>
-            <a href="https://discord.gg/QFwuEbESYe" class="btn btn-discord">
-                <i class="fab fa-discord"></i> Join Community
+            <a href="https://github.com/PhotonMC/phoroncode" class="btn btn-outline">
+                <i class="fas fa-code"></i> View Code
+            </a>
+            <a href="https://discord.gg/QFwuEbESYe" class="btn btn-outline">
+                <i class="fab fa-discord"></i> Discord
             </a>
         </div>
     </header>
 
     <section class="features">
         <div class="card">
-            <i class="fas fa-wind"></i>
-            <h3>Built for Speed</h3>
-            <p>Our custom-coded optimizations ensure smooth gameplay even on low-end hardware. Maximize your FPS effortlessly.</p>
+            <i class="fas fa-bolt"></i>
+            <h3>Optimized for 1.8.9</h3>
+            <p>Every module is fine-tuned for the 1.8.9 engine, delivering a competitive edge without the overhead.</p>
         </div>
         <div class="card">
-            <i class="fas fa-eye"></i>
-            <h3>Visual Clarity</h3>
-            <p>A minimalist interface that puts the focus back on your gameplay. No bloat, no clutter, just Phoron.</p>
+            <i class="fas fa-microchip"></i>
+            <h3>Modern Codebase</h3>
+            <p>Built with clean, modular code available on GitHub. Phoron is transparent, secure, and community-driven.</p>
         </div>
         <div class="card">
             <i class="fas fa-shield-halved"></i>
-            <h3>Verified Builds</h3>
-            <p>As a closed-source client, every line of code is audited by PhotonMC to ensure the highest security and stability standards.</p>
+            <h3>No Bloat</h3>
+            <p>Unlike other clients, we don't pack unnecessary telemetry or visual clutter. Just the features you need.</p>
         </div>
     </section>
 
     <footer>
         <div class="footer-logo">
-            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="PhotonMC" style="width: 40px;">
+            <img src="https://avatars.githubusercontent.com/u/246218628?s=48&v=4" alt="PhotonMC">
         </div>
-        <div class="footer-socials">
+        <div class="socials">
             <a href="https://github.com/PhotonMC"><i class="fab fa-github"></i></a>
             <a href="https://discord.gg/QFwuEbESYe"><i class="fab fa-discord"></i></a>
         </div>
-        <p class="copyright">
-            &copy; 2024 PhotonMC. Not an official Minecraft product.<br>
-            All code maintained and distributed exclusively by the PhotonMC Team.
+        <p style="color: var(--text-dim); font-size: 0.9rem;">
+            &copy; 2024 PhotonMC. All rights reserved.<br>
+            Phoron is open source under the PhotonMC organization.
         </p>
     </footer>
 
     <script>
-        const themeToggle = document.getElementById('themeToggle');
+        const btn = document.getElementById('theme-toggle');
+        const icon = btn.querySelector('i');
         const body = document.documentElement;
-        const icon = themeToggle.querySelector('i');
 
-        themeToggle.addEventListener('click', () => {
+        btn.addEventListener('click', () => {
             if (body.getAttribute('data-theme') === 'light') {
                 body.removeAttribute('data-theme');
                 icon.className = 'fas fa-moon';
